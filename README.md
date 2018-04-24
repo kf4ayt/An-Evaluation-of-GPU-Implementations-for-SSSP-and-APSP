@@ -1,2 +1,8 @@
-# CSCI-6620-Research-Project
-Research project performed as part of CSCI 6620 'Research Methods in Computer Science' at MTSU, TN, USA
+# CSCI 6620 Research Project
+Research project performed as part of CSCI 6620 'Research Methods in Computer Science' at MTSU, TN, USA.
+
+This repository contains the source code for the algorithm implementations tested as part of the research project that I performed for the 'Research Methods in Computer Science' (CSCI 6620) at Middle Tennessee State University, TN, USA, during the spring of 2018.
+
+The directory names are self-explanatory (provided you have read the paper) and all contain a brief README.txt file that contains instructions on how to compile the source code and utilize the executable.
+
+Please note: The source code was compiled and run on a machine running Debian Linux (v9 - 'Sid') using NVIDIA's nvcc compiler (v9.0.176) and (under the hood) the gcc v6.3.0 compiler with the NVIDIA CUDA v9.0.176 toolkit for a GPU with Compute Capability of 6.1 (a GP104, to be precise). If you have any trouble compiling the files, check the Makefiles and various dependencies (you may need to specify a path for an #include<>, for example) first, as certain support files may be in different locations and, particularly for Windows machines, any path names (as of writing this, I can't think of any in the source code) will almost certainly require changes. Finally, make sure that you have, at a bare minimum, CUDA v5 and a GPU with Compute Capability of at least 1.1, as the 1.0 models do not support a critical atomic function call, and then, as noted in the paper, if you use the Python-based utilities to create and convert graphs, the amount of available system RAM will dictate what you can do.
