@@ -1,4 +1,4 @@
-# CSCI 6620 Research Project
+# An Evaluation of GPU Implementations for SSSP and APSP
 Research project performed as part of CSCI 6620 'Research Methods in Computer Science' at MTSU, TN, USA.
 
 This repository contains the source code for the algorithm implementations tested as part of the research project that I performed for the 'Research Methods in Computer Science' (CSCI 6620) at Middle Tennessee State University, TN, USA, during the spring of 2018.
