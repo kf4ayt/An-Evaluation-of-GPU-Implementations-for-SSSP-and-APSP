@@ -1,0 +1,107 @@
+/* Junio 2008
+
+SINGLE SOURCE SHORTEST PATH
+LISTAS DE ADYACENCIA
+
+///////////////////////////////
+PROCESAMIENTO DE LOS PENDIENTES
+///////////////////////////////
+
+// Note: English translations are courtesy of Google unless otherwise noted - cwj
+
+KERNELS BÁSICOS
+- kernel1: implementa en GPU la actualización de los caminos especiales mínimos 
+- kernel1: implements in GPU the update of the special minimum paths
+
+- kernel_minimizar1: implementa en GPU la elección de los mínimos caminos especiales mínimos
+- kernel_minimizar1: 'implements in GPU the election of minimum minimum special roads' - google
+
+- kernel_minimizar2: implementa en GPU la elección de los mínimos entre los mínimos calucados 
+por kernel_minimizar1 (segundo nivel de minimización)
+- kernel_minimizar2: 'implements in GPU the choice of minimums between the minima calucados 
+by kernel_minimizar1 (second level of minimization)' - google
+
+- kernel3: implementa en GPU la actualización de la frontera y de los pendientes
+- kernet3: implements in GPU the update of the border and the pending
+
+SOLUCIONES BÁSICAS
+- SSSP0: kernel3
+- SSSP1: kernel1
+- SSSP2: kernel1 + kernel 3
+- SSSP3: kernel1+ kernel_minimizar + kernel3
+- SSSP4: kernel1+ kernel_minimizar1 + kernel_minimizar2 + kernel3
+
+KERNELS ESPECIALIZADOS PARA CUDA
+-- KERNELS ESPECIALLY FOR CUDA --
+
+- kernel1_SSSP5: kernel1 con shared memory
+- kernel1_SSSP5_tex: kernel1 con shared memory y texturas para el grafo (v, a, w)
+- kernel1_SSSP5_tex_all: kernel1 con shared memory, texturas para el grafo (v, a, w), y 
+texturas para los vectores f y p.
+- kernel3_tex: kernel3 con textura para el vector c
+
+SOLUCIONES ESPECIALIZADAS PARA CUDA
+-- SPECIALIZED SOLUTIONS FOR CUDA --
+- SSSP5: kernel1_SSSP5 + kernel_minimizar1 + kernel_minimizar2 + kernel3
+- SSSP5_Texture: kernel1_SSSP5_tex + kernel_minimizar1 + kernel_minimizar2 + kernel3
+- SSSP5_Texture_All: kernel1_SSSP5_tex + kernel_minimizar1 + kernel_minimizar2 + kernel3_tex
+- SSSP5_Texture_AllOfAll: kernel1_SSSP5_tex_all + kernel_minimizar1 + kernel_minimizar2 + 
+kernel3_tex
+
+NOTA: la solución SSSP6 difiere de SSSP5 en el tamaño de la shared memory, concretamente en 
+cómo se trata v_d[blockDim.x], esto es, el tope del último hilo del bloque. SSSP6 usa memoria 
+compartida para él, mientras que SSSP5 no. Idem para las correspondientes variantes.
+
+
+////////////////////////////
+PROCESAMIENTO DE LA FRONTERA
+////////////////////////////
+
+KERNEL BÁSICO
+- kernel1_SSSP8: implementa en GPU la actualización de los caminos especiales mínimos, 
+procesando la frontera
+ -- implements in GPU the update of the minimum special roads, processing the border --
+
+SOLUCIÓN BÁSICA (simétrica a SSSP3)
+- SSSP3: kernel1_SSSP8+ kernel_minimizar + kernel3
+
+*/
+
+
+////////////
+//CONSTANTES
+////////////
+#define NUM_THREADS_IN_BLOCK 256 //2^7 número de hilos por bloque
+#define N_MEGAS 8 //número de megas
+#define N_NODOS N_MEGAS*1024*1024 
+
+//OJO: N_NODOS debe ser múltiplo de NUM_THREADS_IN_BLOCK para que los bloques  
+//     del grid cubran todoslos vértices
+
+//OJO: N_NODOS debe ser múltiplo de 2*NUM_THREADS_IN_BLOCK para que funcione 
+//     SSSP3
+
+//OJO: N_NODOS debe ser múltiplo de (2*NUM_THREADS_IN_BLOCK)^2 para que funcionen
+//      SSSP4, SSSP5 y SSSP6
+
+#define DEGREE 7 //grado de libertad de los nodos
+#define TOPE_W 10 //máximo peso de arista
+#define INFINITO N_NODOS*TOPE_W //inicialización de la solución
+
+#define NUM_GRAFOS 50
+
+
+/////////////////////////////
+//TEXTURAS PARA SSSP5 Y SSSP6
+/////////////////////////////
+//Texturas para almacenar los grafos en 
+texture<unsigned int, 1, cudaReadModeElementType> textura_v; 
+texture<unsigned int, 1, cudaReadModeElementType> textura_a; 
+texture<unsigned int, 1, cudaReadModeElementType> textura_w; 
+
+//Texturas para almacenar las estructuras que precisan los algoritmos
+texture<unsigned int, 1, cudaReadModeElementType> textura_c; 
+texture<char1, 1, cudaReadModeElementType> textura_p; 
+texture<char1, 1, cudaReadModeElementType> textura_f; 
+
+
