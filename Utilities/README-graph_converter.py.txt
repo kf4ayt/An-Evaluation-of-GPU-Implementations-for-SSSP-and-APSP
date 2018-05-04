@@ -6,7 +6,7 @@ Purpose: This script converts a Matrix Market graph to the desired
          Yarananan, Martin et al, and the format used by another paper
          whose code was ultimately not included in the project.
 
-Requirements: This Python script required Python 3 and the following
+Requirements: This Python script requires Python 3 and the following
               packages: sys, numpy, scipy, networkx.
 
 Usage: To use it, type './graph_converter.py' (be sure that it is an
