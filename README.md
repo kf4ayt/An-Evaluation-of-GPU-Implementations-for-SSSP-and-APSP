@@ -1,7 +1,7 @@
 # An Evaluation of GPU Implementations for SSSP and APSP
 Research project performed as part of CSCI 6620 'Research Methods in Computer Science' at MTSU, TN, USA.
 
-This repository contains the source code for the algorithm implementations tested as part of the research project that I performed for the 'Research Methods in Computer Science' (CSCI 6620) at Middle Tennessee State University, TN, USA, during the spring of 2018.
+This repository contains the source code for the algorithm implementations tested as part of the research project that I performed for the 'Research Methods in Computer Science' (CSCI 6620) at Middle Tennessee State University, TN, USA, during the spring of 2018. With the exception of the Python scripts, this code is NOT MINE - I only edited it so that it would run on my machine. This code belongs to the authors of the associated papers and any inquiries should be addressed to them.
 
 The directory names are self-explanatory (provided you have read the paper) and all contain a brief README.txt file that contains instructions on how to compile the source code and utilize the executable.
 
